@@ -36,3 +36,12 @@ class Solver:
                     return False
 
         return True
+    
+    def is_solved(self):
+        for row in range(9):
+            for col in range(9):
+                if self.board.grid[row][col] == 0:
+                    return False
+                if not self.is_valid(self.board.grid[row][col], (row, col)):
+                    return False
+        return True

@@ -32,3 +32,17 @@ class Board:
     def _units_valid(self, unit):
         unit = [num for num in unit if num != 0]
         return len(unit) == len(set(unit))
+    
+    def print_board(self):
+        for i in range(9):
+            if i % 3 == 0 and i != 0:
+                print("- - - - - - - - - - - - ")
+
+            for j in range(9):
+                if j % 3 == 0 and j != 0:
+                    print(" | ", end="")
+
+                if j == 8:
+                    print(self.grid[i][j])
+                else:
+                    print(str(self.grid[i][j]) + " ", end="")
