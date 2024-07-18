@@ -46,3 +46,9 @@ class Board:
                     print(self.grid[i][j])
                 else:
                     print(str(self.grid[i][j]) + " ", end="")
+
+    def reset(self):
+        self.grid = [row[:] for row in self.original]
+
+    def clear(self):
+        self.grid = [[0 for _ in range(9)] for _ in range(9)]

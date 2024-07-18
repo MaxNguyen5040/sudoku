@@ -24,15 +24,21 @@ class Solver:
                     return (i, j)
         return None
 
-    def _is_valid(self, num, row, col):
-        for i in range(9):
-            if self.board.grid[row][i] == num or self.board.grid[i][col] == num:
+    def is_valid(self, num, pos):
+        for col in range(9):
+            if self.board.grid[pos[0]][col] == num and pos[1] != col:
                 return False
 
-        start_row, start_col = 3 * (row // 3), 3 * (col // 3)
-        for i in range(start_row, start_row + 3):
-            for j in range(start_col, start_col + 3):
-                if self.board.grid[i][j] == num:
+        for row in range(9):
+            if self.board.grid[row][pos[1]] == num and pos[0] != row:
+                return False
+
+        box_x = pos[1] // 3
+        box_y = pos[0] // 3
+
+        for i in range(box_y * 3, box_y * 3 + 3):
+            for j in range(box_x * 3, box_x * 3 + 3):
+                if self.board.grid[i][j] == num and (i, j) != pos:
                     return False
 
         return True
