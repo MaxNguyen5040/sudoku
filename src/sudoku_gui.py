@@ -7,6 +7,8 @@ class SudokuGUI:
         self.root = root
         self.board = board
         self.solver = solver
+        self.history = []
+        self.future = []
         self.root.title("Sudoku")
         self.cells = {}
         self.timer_label = None
@@ -17,6 +19,61 @@ class SudokuGUI:
         self.create_timer()
         self.create_move_counter()
         self.update_timer()
+
+    def update_board(self):
+        self.display_message("")
+        for row in range(9):
+            for col in range(9):
+                value = self.cells[(row, col)].get()
+                if value.isdigit():
+                    num = int(value)
+                    if num < 1 or num > 9 or not self.solver.is_valid(num, (row, col)):
+                        self.cells[(row, col)].config(bg="light pink")
+                        self.display_message("Invalid input detected.")
+                        return
+                    self.board.grid[row][col] = num
+                else:
+                    self.board.grid[row][col] = 0
+                self.cells[(row, col)].config(bg="white")
+        self.history.append([row[:] for row in self.board.grid])
+        self.future.clear()
+        self.increment_move_counter()
+
+    def change_theme(self, theme):
+        if theme == "dark":
+            bg_color = "black"
+            fg_color = "white"
+        else:  # light
+            bg_color = "white"
+            fg_color = "black"
+        self.root.configure(bg=bg_color)
+        for cell in self.cells.values():
+            cell.config(bg=bg_color, fg=fg_color)
+        self.timer_label.config(bg=bg_color, fg=fg_color)
+        self.move_counter_label.config(bg=bg_color, fg=fg_color)
+        self.update_gui_board()
+
+    def undo(self):
+        if self.history:
+            self.future.append(self.history.pop())
+            self.board.grid = self.history[-1] if self.history else [[0]*9 for _ in range(9)]
+            self.update_gui_board()
+
+    def redo(self):
+        if self.future:
+            self.history.append(self.future.pop())
+            self.board.grid = self.history[-1]
+            self.update_gui_board()
+
+    def give_hint(self):
+        empty_cells = [(r, c) for r in range(9) for c in range(9) if self.board.grid[r][c] == 0]
+        if empty_cells:
+            row, col = random.choice(empty_cells)
+            self.board.grid[row][col] = self.solver.solution[row][col]
+            self.update_gui_board()
+            self.history.append([row[:] for row in self.board.grid])
+            self.future.clear()
+            self.increment_move_counter()
 
     def create_timer(self):
         self.timer_label = tk.Label(self.root, text="Time: 00:00", font=("Arial", 12))
