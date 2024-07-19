@@ -20,7 +20,34 @@ class AdvancedBoard:
         self.fill_remaining_cells(board)
         self.remove_numbers_from_board(board, 30)  # Remove 30 numbers for easy difficulty
         return board
+    
+    def generate_medium_board(self):
+        board = self.create_empty_board()
+        self.fill_diagonal_boxes(board)
+        self.fill_remaining_cells(board)
+        self.remove_numbers_from_board(board, 40)  # Remove 40 numbers for medium difficulty
+        return board
+    
+    def generate_hard_board(self):
+        board = self.create_empty_board()
+        self.fill_diagonal_boxes(board)
+        self.fill_remaining_cells(board)
+        self.remove_numbers_from_board(board, 50)  # Remove 50 numbers for hard difficulty
+        return board
 
+    def create_and_validate_board(difficulty):
+        board = create_advanced_board(difficulty)
+        advanced_board = AdvancedBoard(difficulty)
+        advanced_board.fill_board()
+        if advanced_board.is_solvable():
+            return advanced_board.board
+        else:
+            return create_and_validate_board(difficulty)
+
+    def is_solvable(self):
+        temp_board = [row[:] for row in self.board]
+        return self.solve_sudoku(temp_board)
+    
     def fill_diagonal_boxes(self, board):
         for i in range(0, 9, 3):
             self.fill_3x3_box(board, i, i)
