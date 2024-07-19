@@ -1,21 +1,15 @@
 class UserProfile:
     def __init__(self, username):
         self.username = username
-        self.stats = {'games_played': 0, 'games_won': 0, 'total_time': 0}
+        self.statistics = {
+            'puzzles_solved': 0,
+            'hints_used': 0,
+            'total_time_spent': 0
+        }
 
-    def update_stats(self, won, time_spent):
-        self.stats['games_played'] += 1
-        if won:
-            self.stats['games_won'] += 1
-        self.stats['total_time'] += time_spent
+    def increment_stat(self, stat_name):
+        if stat_name in self.statistics:
+            self.statistics[stat_name] += 1
 
-users = {}
-
-def create_user(username):
-    if username not in users:
-        users[username] = UserProfile(username)
-    return users[username]
-
-def update_user_stats(username, won, time_spent):
-    if username in users:
-        users[username].update_stats(won, time_spent)
+    def add_time(self, time_spent):
+        self.statistics['total_time_spent'] += time_spent
