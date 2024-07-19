@@ -43,7 +43,7 @@ class SudokuGUI:
         if theme == "dark":
             bg_color = "black"
             fg_color = "white"
-        else:  # light
+        else:  
             bg_color = "white"
             fg_color = "black"
         self.root.configure(bg=bg_color)
