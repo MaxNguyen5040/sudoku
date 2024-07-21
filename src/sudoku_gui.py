@@ -235,3 +235,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+class SyncManager:
+    def __init__(self, api_url):
+        self.api_url = api_url
+
+    def upload_game_state(self, game_state):
+        response = requests.post(f"{self.api_url}/upload", json=game_state)
+        return response.json()
+
+    def download_game_state(self):
+        response = requests.get(f"{self.api_url}/download")
+        return response.json()

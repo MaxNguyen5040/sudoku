@@ -13,7 +13,6 @@ class StoryMode:
     def get_current_stage(self):
         return self.stages[self.current_stage]
 
-# Example usage
 stages = [
     "Welcome to Sudoku Island! Solve the first puzzle to proceed.",
     "Great job! Now solve this harder puzzle.",

@@ -22,3 +22,17 @@ class SudokuGame:
             for c in range(subgrid_col_start, subgrid_col_start + self.subgrid_size):
                 used_values.add(self.board[r][c])
         return [value for value in range(1, self.size + 1) if value not in used_values]
+
+class PuzzleAnalytics:
+    def __init__(self, game):
+        self.game = game
+        self.move_history = []
+
+    def record_move(self, row, col, value):
+        self.move_history.append((row, col, value))
+
+    def analyze_moves(self):
+        return {
+            "total_moves": len(self.move_history),
+            "unique_cells_filled": len(set((row, col) for row, col, _ in self.move_history))
+        }
