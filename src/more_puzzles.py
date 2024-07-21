@@ -5,7 +5,6 @@ class Sudoku:
         self.subgrid_size = int(size ** 0.5)
 
     def generate_puzzle(self):
-        # Placeholder: Generate a fully solved grid for simplicity
         from random import sample
         base = range(1, self.size + 1)
         rows  = [sample(base, len(base)) for _ in range(self.size)]
